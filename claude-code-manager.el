@@ -1,7 +1,7 @@
 ;;; claude-code-manager.el --- Dashboard for Claude Code instances -*- lexical-binding: t; -*-
 
-;; Author: lishiyu
-;; URL: https://github.com/lishiyu/claude-code-emacs
+;; Author: lishiyu <522583971@qq.com>
+;; URL: https://github.com/lsy83971/claude-code-emacs
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "29.1") (claude-code "0.1"))
 ;; Keywords: tools, ai

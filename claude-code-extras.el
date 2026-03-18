@@ -1,7 +1,7 @@
 ;;; claude-code-extras.el --- Enhanced UI for claude-code.el -*- lexical-binding: t; -*-
 
-;; Author: lishiyu
-;; URL: https://github.com/lishiyu/claude-code-emacs
+;; Author: lishiyu <522583971@qq.com>
+;; URL: https://github.com/lsy83971/claude-code-emacs
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "29.1") (vterm "0.0.2") (claude-code "0.1"))
 ;; Keywords: tools, ai
@@ -29,8 +29,10 @@
 
 (require 'claude-code)
 
-(use-package inheritenv :ensure t)
-(use-package vterm :ensure t)
+(declare-function vterm-send-string "vterm")
+(declare-function vterm-send-return "vterm")
+(declare-function vterm-copy-mode "vterm")
+(declare-function vterm--filter-buffer-substring "vterm")
 
 ;;;; ============================================================
 ;;;; Same-Window Display
@@ -104,7 +106,8 @@
 ;;                -> use minor-mode-overriding-map-alist (step 3) to override
 
 (defun claude-code-smart-copy ()
-  "M-w: enter copy-mode if not active; copy region and exit if active."
+  "Smart copy for Claude buffers.
+Enter copy-mode if not active; copy region and exit if active."
   (interactive)
   (if (bound-and-true-p vterm-copy-mode)
       (let ((win-start (window-start))
@@ -131,7 +134,7 @@
     (message "Copy mode: C-SPC to set mark, move to select, M-w to copy and exit")))
 
 (defun claude-code-paste ()
-  "C-y: paste kill-ring top into the Claude vterm input area."
+  "Paste `kill-ring' top into the Claude vterm input area."
   (interactive)
   (when (bound-and-true-p vterm-copy-mode)
     (vterm-copy-mode -1)
@@ -144,7 +147,7 @@
 ;; vterm--self-insert-meta handles meta keys (M-w),
 ;; vterm--self-insert handles control keys (C-y)
 (defun claude-code--intercept-vterm-meta (&rest _)
-  "Intercept M-w in Claude buffers during normal mode."
+  "Intercept copy/paste keys in Claude buffers during normal mode."
   (when (claude-code--buffer-p (current-buffer))
     (cond
      ((eq last-command-event ?\M-w)
@@ -153,7 +156,7 @@
       (call-interactively #'claude-code-paste) t))))
 
 (defun claude-code--intercept-vterm-insert (&rest _)
-  "Intercept C-y in Claude buffers during normal mode."
+  "Intercept paste key in Claude buffers during normal mode."
   (when (and (claude-code--buffer-p (current-buffer))
              (eq last-command-event ?\C-y))
     (call-interactively #'claude-code-paste) t))
@@ -167,7 +170,8 @@
   "Non-nil in Claude buffers to activate the copy/paste overriding keymap.")
 
 (defun claude-code--setup-copy-paste-keys ()
-  "Set up M-w / C-y overrides for copy-mode, overriding minor-mode-map-alist."
+  "Set up copy/paste overrides for copy-mode.
+Override bindings in `minor-mode-map-alist'."
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "M-w") #'claude-code-smart-copy)
     (define-key map (kbd "C-y") #'claude-code-paste)
