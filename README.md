@@ -1,4 +1,4 @@
-# claude-code-emacs
+# claude-code-extras
 
 Enhanced Emacs UI for [claude-code.el](https://github.com/stevemolitor/claude-code.el) — same-window display, copy/paste support, dedicated input buffer, and a multi-instance manager dashboard.
 
@@ -23,20 +23,35 @@ Enhanced Emacs UI for [claude-code.el](https://github.com/stevemolitor/claude-co
 - Emacs **29.1+**
 - [vterm](https://github.com/akermu/emacs-libvterm) — terminal backend
 - [claude-code.el](https://github.com/stevemolitor/claude-code.el) — base Claude Code integration
-- [inheritenv](https://github.com/purcell/inheritenv) — environment variable inheritance
 
 ## Installation
+
+### From MELPA (recommended)
+
+```elisp
+(use-package claude-code-extras
+  :ensure t
+  :after claude-code
+  :config
+  (claude-code-extras-mode 1)
+  ;; Optional: customize settings before enabling the mode
+  ;; (setq claude-code-terminal-backend 'vterm)
+  ;; Bind the manager dashboard
+  (define-key claude-code-command-map (kbd "L") #'claude-code-extras-manager))
+```
+
+### Manual
 
 Clone this repo and add to your `load-path`:
 
 ```elisp
 (add-to-list 'load-path "/path/to/claude-code-emacs")
 (require 'claude-code-extras)
-(require 'claude-code-manager)
+(claude-code-extras-mode 1)
 
 ;; Bind the manager to C-c c L
 (with-eval-after-load 'claude-code
-  (define-key claude-code-command-map (kbd "L") #'claude-code-manager))
+  (define-key claude-code-command-map (kbd "L") #'claude-code-extras-manager))
 ```
 
 ## Keybindings
@@ -76,4 +91,4 @@ Clone this repo and add to your `load-path`:
 
 ## License
 
-GPL-3.0
+GPL-3.0-or-later
