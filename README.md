@@ -11,7 +11,7 @@ Enhanced Emacs UI for [claude-code.el](https://github.com/stevemolitor/claude-co
 - **Dedicated input buffer** — Multi-line editing with history, auto-opens below the Claude window
 - **Spinner character fix** — Replaces Unicode spinner glyphs with `*` to avoid font line-height issues
 
-### claude-code-manager.el
+### claude-code-extras-manager.el
 
 - **Instance dashboard** — `tabulated-list-mode` based panel showing all Claude instances
 - **Activity preview** — Shows the last line of terminal output for each instance

@@ -1,4 +1,4 @@
-;;; claude-code-manager.el --- Dashboard for Claude Code instances -*- lexical-binding: t; -*-
+;;; claude-code-extras-manager.el --- Dashboard for Claude Code instances -*- lexical-binding: t; -*-
 
 ;; Author: lishiyu <522583971@qq.com>
 ;; URL: https://github.com/lsy83971/claude-code-emacs
@@ -291,5 +291,5 @@
     (claude-code-extras-manager--start-timer)
     (pop-to-buffer buf)))
 
-(provide 'claude-code-manager)
-;;; claude-code-manager.el ends here
+(provide 'claude-code-extras-manager)
+;;; claude-code-extras-manager.el ends here
